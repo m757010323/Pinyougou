@@ -11,10 +11,21 @@
     <link rel="stylesheet" href="../css/style.css">
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+	<script>
+			var  app = angular.module('pinyougou',[]);
+			app.controller('brandController',function ($scope,$http) {
+				$scope.findAll=function () {
+					$http.get("../brand/findAll.do").success(function (response) {
+						$scope.list = response;
+                    });
+                }
+            });
+	</script>
 
     
 </head>
-<body class="hold-transition skin-red sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="brandController" ng-init="findAll()">
   <!-- .box-body -->
                     <div class="box-header with-border">
                         <h3 class="box-title">品牌管理</h3>
@@ -56,33 +67,33 @@
 			                          </tr>
 			                      </thead>
 			                      <tbody>
-			                          <tr>
+			                          <tr ng-repeat="entity in list">
 			                              <td><input  type="checkbox" ></td>			                              
-				                          <td>1</td>
-									      <td>联想</td>									     
-		                                  <td>L</td>		                                 
+				                          <td>{{entity.id}}</td>
+									      <td>{{entity.name}}</td>
+		                                  <td>{{entity.firstChar}}</td>
 		                                  <td class="text-center">                                           
 		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>                                           
 		                                  </td>
 			                          </tr>
-									  <tr>
-			                              <td><input  type="checkbox"></td>			                              
-				                          <td>2</td>
-									      <td>华为</td>									     
-		                                  <td>H</td>		                                 
-		                                  <td class="text-center">                                           
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>                                           
-		                                  </td>
-			                          </tr>
-									  <tr>
-			                              <td><input  type="checkbox"></td>			                              
-				                          <td>3</td>
-									      <td>三星</td>									     
-		                                  <td>S</td>		                                 
-		                                  <td class="text-center">                                           
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>                                           
-		                                  </td>
-			                          </tr>
+									  <!--<tr>-->
+			                              <!--<td><input  type="checkbox"></td>			                              -->
+				                          <!--<td>2</td>-->
+									      <!--<td>华为</td>									     -->
+		                                  <!--<td>H</td>		                                 -->
+		                                  <!--<td class="text-center">                                           -->
+		                                 	  <!--<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>                                           -->
+		                                  <!--</td>-->
+			                          <!--</tr>-->
+									  <!--<tr>-->
+			                              <!--<td><input  type="checkbox"></td>			                              -->
+				                          <!--<td>3</td>-->
+									      <!--<td>三星</td>									     -->
+		                                  <!--<td>S</td>		                                 -->
+		                                  <!--<td class="text-center">                                           -->
+		                                 	  <!--<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>                                           -->
+		                                  <!--</td>-->
+			                          <!--</tr>-->
 			                      </tbody>
 			                  </table>
 			                  <!--数据列表/-->                        
