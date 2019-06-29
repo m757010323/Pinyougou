@@ -7,6 +7,8 @@
           <element id="module-output" name="pinyougou-sellergoods-service" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.github.pagehelper:pagehelper:4.0.0" />
+          <element id="library" level="project" name="Maven: com.github.jsqlparser:jsqlparser:0.9.1" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context:4.2.4.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.2.4.RELEASE" />
           <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
@@ -40,8 +42,6 @@
           <element id="archive" name="pinyougou-dao-1.0-SNAPSHOT.jar">
             <element id="module-output" name="pinyougou-dao" />
           </element>
-          <element id="library" level="project" name="Maven: com.github.pagehelper:pagehelper:4.0.0" />
-          <element id="library" level="project" name="Maven: com.github.jsqlparser:jsqlparser:0.9.1" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.2.8" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:1.2.2" />
           <element id="library" level="project" name="Maven: com.github.miemiedev:mybatis-paginator:1.2.15" />
