@@ -53,8 +53,13 @@
                 
                 //添加
 				$scope.add = function () {
-				    $http.post("../brand/add.do",$scope.entity).success(function (response) {
-						if(response.success()){
+
+				    var methodName = "add";
+				    if($scope.entity.id != null){
+				        methodName = "update";
+					}
+				    $http.post("../brand/"+methodName+".do",$scope.entity).success(function (response) {
+						if(response.success){
 							$scope.reloadList();
 						}
 						else{
@@ -62,6 +67,13 @@
 						}
                     })
 					
+                }
+                
+                //查询实体
+				$scope.findOne = function (id) {
+					$http.post("../brand/findOne.do?id="+id).success(function (response) {
+					    $scope.entity = response;
+                    })
                 }
 
             });
@@ -117,7 +129,7 @@
 									      <td>{{entity.name}}</td>
 		                                  <td>{{entity.firstChar}}</td>
 		                                  <td class="text-center">                                           
-		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal"  >修改</button>                                           
+		                                 	  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" ng-click="findOne(entity.id)"  >修改</button>
 		                                  </td>
 			                          </tr>
 
