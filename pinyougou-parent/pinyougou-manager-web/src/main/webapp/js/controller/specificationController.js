@@ -3,6 +3,7 @@ app.controller('specificationController' ,function($scope,$controller,specificat
 	
 	$controller('baseController',{$scope:$scope});//继承
 
+	$scope.entity={specificationOptionList:[]};//初始化entity以及specificationOptionList
 	//新增选项行
 	$scope.addTableRow =function(){
         $scope.entity.specificationOptionList.push({});
