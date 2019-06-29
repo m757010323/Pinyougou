@@ -22,4 +22,8 @@ public interface BrandService {
      * @param tbBrand
      */
     public void add(TbBrand tbBrand);
+
+    public void update(TbBrand brand);
+
+    public TbBrand findOne(Long id);
 }
