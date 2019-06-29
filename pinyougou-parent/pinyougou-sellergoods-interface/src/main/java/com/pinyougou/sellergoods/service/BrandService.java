@@ -28,4 +28,13 @@ public interface BrandService {
     public TbBrand findOne(Long id);
 
     public void delete(Long[] ids);
+
+    /**
+     * 分页
+     * @param brand
+     * @param pageNum 当前页码
+     * @param pageSize  一页的记录数
+     * @return
+     */
+    public PageResult findPage(TbBrand brand,int pageNum,int pageSize);
 }
