@@ -19,9 +19,35 @@
 
     <script>
 			var  app = angular.module('pinyougou',['pagination']);
-			app.controller('brandController',function ($scope,$http) {
+
+			app.service("brandService",function ($http) {
+			    //读取列表数据绑定到表单中
+				this.findAll = function () {
+					return $http.get("../brand/findAll.do");
+                }
+                this.findPage =function (page,rows) {
+				    return $http.get('../brand/findPage.do?page='+page+'&rows='+rows);
+				}
+				this.findOne = function (id) {
+					return $http.post("../brand/findOne.do?id="+id);
+                }
+				this.add = function (entity) {
+					return $http.post("../brand/add.do",entity)
+                }
+                this.update =function (entity) {
+                    return $http.post("../brand/update.do",entity)
+                }
+                this.dele =function (ids) {
+					return $http.get("../brand/delete.do?ids="+ids)
+                }
+                this.search = function (page,rows,searchEntity) {
+					return $http.post("../brand/search.do?page="+page+"&rows="+rows,searchEntity)
+                }
+				
+            })
+			app.controller('brandController',function ($scope,$http,brandService) {
 				$scope.findAll=function () {
-					$http.get("../brand/findAll.do").success(function (response) {
+					brandService.findAll().success(function (response) {
 						$scope.list = response;
                     });
                 }
@@ -47,7 +73,7 @@
                 };
 				//分页
 				$scope.findPage =function (page,rows) {
-					$http.get('../brand/findPage.do?page='+page+'&rows='+rows).success(function (response) {
+					brandService.findPage(page,rows).success(function (response) {
 						$scope.list = response.rows;
 						$scope.paginationConf.totalItems = response.total;//更新总记录数
                     })
@@ -56,11 +82,14 @@
                 //添加
 				$scope.add = function () {
 
-				    var methodName = "add";
+				    // var methodName = "add";
+					var object = null;
 				    if($scope.entity.id != null){
-				        methodName = "update";
+				        object=brandService.update($scope.entity);
+					}else{
+                        object=brandService.add($scope.entity);
 					}
-				    $http.post("../brand/"+methodName+".do",$scope.entity).success(function (response) {
+				    object.success(function (response) {
 						if(response.success){
 							$scope.reloadList();
 						}
@@ -73,7 +102,7 @@
                 
                 //查询实体
 				$scope.findOne = function (id) {
-					$http.post("../brand/findOne.do?id="+id).success(function (response) {
+					brandService.findOne(id).success(function (response) {
 					    $scope.entity = response;
                     })
                 }
@@ -93,7 +122,7 @@
                 //批量删除
 				$scope.dele = function () {
 					//获取选中的复选框
-					$http.get("../brand/delete.do?ids="+$scope.selectIds).success(function (response) {
+					brandService.dele($scope.selectIds).success(function (response) {
 						if(response.success){
 						    $scope.reloadList();
 						}
@@ -104,7 +133,7 @@
 
                 //条件查询
                 $scope.search = function (page,rows) {
-                    $http.post("../brand/search.do?page="+page+"&rows="+rows,$scope.searchEntity).success(
+                    brandService.search(page,rows,$scope.searchEntity).success(
                         function (response) {
                             $scope.paginationConf.totalItems = response.total;
                             $scope.list =response.rows;
