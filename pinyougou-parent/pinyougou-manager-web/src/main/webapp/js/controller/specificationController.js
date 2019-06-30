@@ -6,14 +6,14 @@ app.controller('specificationController' ,function($scope,$controller,specificat
     //批量选项删除
     $scope.deleTableRow=function(index){
         $scope.entity.specificationOptionList.splice(index,1);//删除
-    }
+    };
 
 
     $scope.entity={specificationOptionList:[]};//初始化entity以及specificationOptionList
 	//新增选项行
 	$scope.addTableRow =function(){
         $scope.entity.specificationOptionList.push({});
-	}
+	};
 	
     //读取列表数据绑定到表单中  
 	$scope.findAll=function(){
@@ -22,8 +22,7 @@ app.controller('specificationController' ,function($scope,$controller,specificat
 				$scope.list=response;
 			}			
 		);
-	}    
-	
+	};
 	//分页
 	$scope.findPage=function(page,rows){			
 		specificationService.findPage(page,rows).success(
@@ -32,7 +31,7 @@ app.controller('specificationController' ,function($scope,$controller,specificat
 				$scope.paginationConf.totalItems=response.total;//更新总记录数
 			}			
 		);
-	}
+	};
 	
 	//查询实体 
 	$scope.findOne=function(id){				
@@ -41,7 +40,7 @@ app.controller('specificationController' ,function($scope,$controller,specificat
 				$scope.entity= response;					
 			}
 		);				
-	}
+	};
 	
 	//保存 
 	$scope.save=function(){				
@@ -61,7 +60,7 @@ app.controller('specificationController' ,function($scope,$controller,specificat
 				}
 			}		
 		);				
-	}
+	};
 	
 	 
 	//批量删除 
@@ -75,7 +74,7 @@ app.controller('specificationController' ,function($scope,$controller,specificat
 				}						
 			}		
 		);				
-	}
+	};
 	
 	$scope.searchEntity={};//定义搜索对象 
 	

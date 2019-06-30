@@ -5,7 +5,7 @@ app.controller("baseController",function ($scope) {
         // $scope.findPage( $scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage);
         //由于查询更改重新加载数据的方法
         $scope.search($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
-    }
+    };
 
     //分页控件配置 currentPage:当前页   totalItems:总记录数  itemsPerPage:每页记录数 perPageOptions:分页选项 onchange:当页码变更时,自动触发方法
     $scope.paginationConf = {

@@ -7,7 +7,7 @@ app.controller('brandController',function ($scope,$controller,brandService) {
             function (response) {
             $scope.list = response;
         });
-    }
+    };
 
     // //重新加载列表 数据
     // $scope.reloadList=function(){
@@ -34,7 +34,7 @@ app.controller('brandController',function ($scope,$controller,brandService) {
             $scope.list = response.rows;
             $scope.paginationConf.totalItems = response.total;//更新总记录数
         })
-    }
+    };
 
     //添加
     $scope.add = function () {
@@ -55,14 +55,14 @@ app.controller('brandController',function ($scope,$controller,brandService) {
             }
         })
 
-    }
+    };
 
     //查询实体
     $scope.findOne = function (id) {
         brandService.findOne(id).success(function (response) {
             $scope.entity = response;
         })
-    }
+    };
 
     // $scope.selectIds = [];//选中的ID集合
     // //更新复选
@@ -84,7 +84,7 @@ app.controller('brandController',function ($scope,$controller,brandService) {
                 $scope.reloadList();
             }
         })
-    }
+    };
 
     $scope.searchEntity = {};//定义搜索对象
 

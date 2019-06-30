@@ -12,7 +12,7 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
                 $scope.brandList={data:response};
             }
         )
-    }
+    };
     //读取列表数据绑定到表单中  
 	$scope.findAll=function(){
 		typeTemplateService.findAll().success(
@@ -20,7 +20,7 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 				$scope.list=response;
 			}			
 		);
-	}    
+	};
 	
 	//分页
 	$scope.findPage=function(page,rows){			
@@ -30,7 +30,7 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 				$scope.paginationConf.totalItems=response.total;//更新总记录数
 			}			
 		);
-	}
+	};
 	
 	//查询实体 
 	$scope.findOne=function(id){				
@@ -39,7 +39,7 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 				$scope.entity= response;					
 			}
 		);				
-	}
+	};
 	
 	//保存 
 	$scope.save=function(){				
@@ -59,7 +59,7 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 				}
 			}		
 		);				
-	}
+	};
 	
 	 
 	//批量删除 
@@ -73,7 +73,7 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 				}						
 			}		
 		);				
-	}
+	};
 	
 	$scope.searchEntity={};//定义搜索对象 
 	
