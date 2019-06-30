@@ -3,6 +3,10 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
 	
 	$controller('baseController',{$scope:$scope});//继承
 
+	$scope.addTableRow =function(){
+        $scope.entity.customAttributeItems.push({});
+	};
+
     $scope.brandList={data:[]};//初始化品牌列表(假数据)
 
     //读取品牌列表
