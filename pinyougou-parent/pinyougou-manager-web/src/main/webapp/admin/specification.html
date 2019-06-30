@@ -106,7 +106,7 @@
                 <table class="table table-bordered table-striped" width="800px">
                     <tr>
                         <td>规格名称</td>
-                        <td><input class="form-control" placeholder="规格名称"></td>
+                        <td><input ng-model="entity.specification.specName" class="form-control" placeholder="规格名称"></td>
                     </tr>
                 </table>
 
@@ -148,7 +148,7 @@
 
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="save()">保存</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
