@@ -7,6 +7,11 @@ app.controller('typeTemplateController' ,function($scope,$controller   ,typeTemp
         $scope.entity.customAttributeItems.push({});
 	};
 
+	$scope.deleTableRow = function(index){
+		$scope.entity.customAttributeItems.splice(index,1);
+	};
+
+
     $scope.brandList={data:[]};//初始化品牌列表(假数据)
 
     //读取品牌列表
