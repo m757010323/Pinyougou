@@ -85,7 +85,7 @@
 			                      </thead>
 			                      <tbody>
 			                          <tr ng-repeat="entity in list">
-			                              <td><input  type="checkbox"></td>			                              
+			                              <td><input  type="checkbox" ></td>
 				                          <td>{{entity.id}}</td>
 									      <td>{{entity.name}}</td>
 									      <td>{{entity.brandIds}}</td>
@@ -128,7 +128,7 @@
 			<table class="table table-bordered table-striped"  width="800px">
 		      	<tr>
 		      		<td>商品类型</td>
-		      		<td><input  class="form-control" placeholder="商品类型">  </td>
+		      		<td><input  class="form-control" placeholder="商品类型" ng-model="entity.name">  </td>
 		      	</tr>			   
 		      	<tr>
 		      		<td>关联品牌</td>
@@ -175,7 +175,7 @@
 			
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="save()">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>
