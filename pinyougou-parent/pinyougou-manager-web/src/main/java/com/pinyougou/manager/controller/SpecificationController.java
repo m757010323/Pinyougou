@@ -80,7 +80,7 @@ public class SpecificationController {
 	 * @return
 	 */
 	@RequestMapping("/findOne")
-	public TbSpecification findOne(Long id){
+	public Specification findOne(Long id){
 		return specificationService.findOne(id);		
 	}
 	

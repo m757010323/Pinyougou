@@ -3,6 +3,7 @@ import java.util.List;
 
 import com.pinyougou.mapper.TbSpecificationOptionMapper;
 import com.pinyougou.pojo.TbSpecificationOption;
+import com.pinyougou.pojo.TbSpecificationOptionExample;
 import com.pinyougou.pojogroup.Specification;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -75,8 +76,20 @@ public class SpecificationServiceImpl implements SpecificationService {
 	 * @return
 	 */
 	@Override
-	public TbSpecification findOne(Long id){
-		return specificationMapper.selectByPrimaryKey(id);
+	public Specification findOne(Long id){
+		TbSpecification tbSpecification = specificationMapper.selectByPrimaryKey(id);
+		//查询规格选项列表
+		TbSpecificationOptionExample example = new TbSpecificationOptionExample();
+		TbSpecificationOptionExample.Criteria criteria = example.createCriteria();
+		criteria.andSpecIdEqualTo(id);//根据id查询
+		List<TbSpecificationOption> tbSpecificationOptions = specificationOptionMapper.selectByExample(example);
+		//构建实体类返回结果
+		Specification spec = new Specification();
+		spec.setSpecification(tbSpecification);
+		spec.setSpecificationOptionList(tbSpecificationOptions);
+
+
+		return spec;
 	}
 
 	/**
