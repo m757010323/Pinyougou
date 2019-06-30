@@ -4,6 +4,7 @@ import com.pinyougou.pojo.TbBrand;
 import entity.PageResult;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BrandService {
 
@@ -37,4 +38,6 @@ public interface BrandService {
      * @return
      */
     public PageResult findPage(TbBrand brand,int pageNum,int pageSize);
+
+    List<Map> selectOptionList();
 }
