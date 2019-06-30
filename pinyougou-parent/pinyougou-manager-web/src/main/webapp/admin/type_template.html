@@ -31,12 +31,13 @@
 	<script type="text/javascript" src="../js/angular-select2.js">  </script>
 	<script type="text/javascript" src="../js/service/typeTemplateService.js"></script>
 	<script type="text/javascript" src="../js/service/brandService.js"></script>
+	<script type="text/javascript" src="../js/service/specificationService.js"></script>
 	<script type="text/javascript" src="../js/controller/baseController.js"></script>
 	<script type="text/javascript" src="../js/controller/typeTemplateController.js"></script>
 
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="typeTemplateController" ng-init="findBrandList()">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="typeTemplateController" ng-init="findBrandList();findSpecificationList()">
   <!-- .box-body -->
                 
                     <div class="box-header with-border">
@@ -138,7 +139,7 @@
 		      	<tr>
 		      		<td>关联规格</td>
 		      		<td>
-	
+						<input select2  select2-model="entity.specificationIds" config="specificationList" multiple placeholder="选择规格（可多选）" class="form-control" type="text"/>
 		      		</td>
 		      	</tr>	
 		      	
