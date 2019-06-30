@@ -162,7 +162,7 @@
 								<tr ng-repeat="pojo in entity.customAttributeItems">
 									<td><input type="checkbox" class="icheckbox_square-blue" ></td>
 									<td><input class="form-control" placeholder="属性名称" ng-model="pojo.text"></td>
-									<td><button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button></td>
+									<td><button type="button" class="btn btn-default" title="删除" ng-click="deleTableRow($index)"><i class="fa fa-trash-o"></i> 删除</button></td>
 								</tr>
 
 							</tbody>
