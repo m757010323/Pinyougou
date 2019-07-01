@@ -22,7 +22,8 @@
 		<headers>
 			<frame-options policy="SAMEORIGIN"/>
 		</headers>
-		<logout/>
+        <!--logout-url退出的地址,会自动生成 logout-success-url 退出后跳转的地址-->
+		<logout logout-url="" logout-success-url=""/>
 	</http>
 	<authentication-manager>
 		<authentication-provider>
