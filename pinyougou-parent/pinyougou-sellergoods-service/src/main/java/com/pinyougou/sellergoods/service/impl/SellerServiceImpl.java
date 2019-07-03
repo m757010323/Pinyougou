@@ -23,8 +23,15 @@ public class SellerServiceImpl implements SellerService {
 
 	@Autowired
 	private TbSellerMapper sellerMapper;
-	
-	/**
+
+    @Override
+    public void updateStatus(String sellerId,String status) {
+        TbSeller seller = sellerMapper.selectByPrimaryKey(sellerId);
+        seller.setStatus(status);
+        sellerMapper.updateByPrimaryKey(seller);
+    }
+
+    /**
 	 * 查询全部
 	 */
 	@Override
