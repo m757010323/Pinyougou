@@ -21,6 +21,18 @@ public class SellerController {
 
 	@Reference
 	private SellerService sellerService;
+
+	@RequestMapping("/updateStatus")
+	public Result updateStatus(String sellerId,String status){
+		try {
+			sellerService.updateStatus(sellerId,status);
+			return new Result(true,"成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(false,"失败");
+		}
+
+	}
 	
 	/**
 	 * 返回全部列表
@@ -101,7 +113,7 @@ public class SellerController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
+	 * @param seller
 	 * @param page
 	 * @param rows
 	 * @return
