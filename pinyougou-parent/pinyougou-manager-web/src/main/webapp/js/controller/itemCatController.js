@@ -76,5 +76,36 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 			}			
 		);
 	}
-    
+    //根据上级查询列表
+	$scope.findByParentId=function (parentId) {
+		itemCatService.findByParentId(parentId).success(
+			function (response) {
+				$scope.list=response;
+            }
+		);
+    }
+
+    $scope.grade=1;//默认为1级
+	//设计级别
+	$scope.setGrade=function (value) {
+		$scope.grade=value;
+    };
+
+    //读取列表
+	$scope.selectList=function (p_entity) {
+		if($scope.grade==1){
+			$scope.entity_1=null;
+			$scope.entity_2=null;
+		}
+		if($scope.grade==2){
+			$scope.entity_1=p_entity;
+            $scope.entity_2=null;
+		}
+		if($scope.grade==3){
+			$scope.entity_2=p_entity;
+		}
+		$scope.findByParentId(p_entity.id);
+    }
+
+
 });	
