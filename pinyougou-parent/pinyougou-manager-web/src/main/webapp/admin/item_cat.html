@@ -54,7 +54,7 @@
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default"  title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+                                        <button type="button" class="btn btn-default" ng-click="dele()"  title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
                                         <button type="button" class="btn btn-default" title="刷新" ><i class="fa fa-check"></i> 刷新</button>
 
                                     </div>
@@ -78,7 +78,7 @@
 			                      </thead>
 			                      <tbody>
 			                          <tr ng-repeat="entity in list" >
-			                              <td><input  type="checkbox" ></td>
+			                              <td><input  type="checkbox" ng-click="updateSelectction($event, entity.id)"></td>
 				                          <td>{{entity.id}}</td>
 									      <td>{{entity.name}}</td>
 									      <td>
@@ -88,13 +88,14 @@
 											  <span ng-if="grade!=3">
 		                                      <button type="button" class="btn bg-olive btn-xs" ng-click="setGrade(grade+1);selectList(entity)" >查询下级</button>
 		                                 	  </span>
-											  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" >修改</button>
+											  <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" ng-click="findOne(entity.id)" >修改</button>
 		                                  </td>
 			                          </tr>
 
 			                      </tbody>
 			                  </table>
 			                  <!--数据列表/-->
+							看这里{{selectIds}}
                         </div>
                         <!-- 数据表格 /-->
 

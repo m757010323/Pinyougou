@@ -1,4 +1,5 @@
 package com.pinyougou.sellergoods.service.impl;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -81,8 +82,17 @@ public class ItemCatServiceImpl implements ItemCatService {
 	 */
 	@Override
 	public void delete(Long[] ids) {
+		System.out.println(Arrays.toString(ids));
+
 		for(Long id:ids){
-			itemCatMapper.deleteByPrimaryKey(id);
+			TbItemCatExample example = new TbItemCatExample();
+			Criteria criteria = example.createCriteria();
+			criteria.andParentIdEqualTo(id);
+			List<TbItemCat> tbItemCats = itemCatMapper.selectByExample(example);
+
+			if (tbItemCats.size()==0 ){
+				itemCatMapper.deleteByPrimaryKey(id);
+			}
 		}		
 	}
 	
