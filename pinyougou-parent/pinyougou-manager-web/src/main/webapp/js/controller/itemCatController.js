@@ -81,6 +81,7 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 	$scope.parentId=0;
     //根据上级查询列表
 	$scope.findByParentId=function (parentId) {
+		$scope.selectIds=[];
 		$scope.parentId=parentId;
 		itemCatService.findByParentId(parentId).success(
 			function (response) {
