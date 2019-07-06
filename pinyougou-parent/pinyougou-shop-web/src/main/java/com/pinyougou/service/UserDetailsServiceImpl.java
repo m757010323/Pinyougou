@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
         if(seller!=null){
-            if(seller.getStatus().equals("1")){
+            if("1".equals(seller.getStatus())){
                 return new User(username,seller.getPassword(),grantedAuths);
             }else{
                 return null;

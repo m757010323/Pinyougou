@@ -1,5 +1,5 @@
  //控制层 
-app.controller('goodsController' ,function($scope,$controller   ,goodsService,uploadService){
+app.controller('goodsController' ,function($scope,$controller   ,goodsService,uploadService,itemCatService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 
@@ -14,6 +14,30 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService,up
         $scope.entity.goodsDesc.itemImages.splice(index,1);
     };
 
+    $scope.selectItemCat1List=function(){
+    	itemCatService.findByParentId(0).success(
+    		function (response) {
+				$scope.itemCat1List=response;
+            }
+		);
+	};
+
+    $scope.$watch('entity.goods.category1Id',function (newValue,oldValue) {
+    	$scope.itemCat3List=[];
+        itemCatService.findByParentId(newValue).success(
+            function (response) {
+                $scope.itemCat2List=response;
+            }
+        );
+    });
+
+    $scope.$watch('entity.goods.category2Id',function (newValue,oldValue) {
+        itemCatService.findByParentId(newValue).success(
+            function (response) {
+                $scope.itemCat3List=response;
+            }
+        );
+    });
 
 
     /**
