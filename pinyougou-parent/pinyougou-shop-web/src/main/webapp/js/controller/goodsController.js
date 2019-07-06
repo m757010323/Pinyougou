@@ -48,12 +48,11 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService,up
     });
 
     $scope.$watch('entity.goods.typeTemplateId',function (newValue,oldValue) {
-    	alert(newValue);
 		typeTemplateService.findOne(newValue).success(
 			function (response) {
 				$scope.typeTemplate=response;
-				alert($scope.typeTemplate.brandIds);
 				$scope.typeTemplate.brandIds=JSON.parse($scope.typeTemplate.brandIds);
+                $scope.entity.goodsDesc.customAttributeItems=JSON.parse($scope.typeTemplate.customAttributeItems);
 			}
 		);
     });
