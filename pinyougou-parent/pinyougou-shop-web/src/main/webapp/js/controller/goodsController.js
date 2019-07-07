@@ -3,6 +3,18 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService,up
 	
 	$controller('baseController',{$scope:$scope});//继承
 
+    $scope.status=["未审核","审核已通过","已驳回","已关闭"];
+    $scope.itemCatList=[];
+    $scope.findItemCatList=function(){
+        itemCatService.findAll().success(
+            function (response) {
+                for (var i = 0; i <response.length ; i++) {
+                    $scope.itemCatList[response[i].id]=response[i].name;
+                }
+            }
+        )
+    };
+
     $scope.entity={goods:{},goodsDesc:{itemImages:[],specificationItems:[]}};//定义页面实体结构
     //添加图片列表
     $scope.add_image_entity=function(){
