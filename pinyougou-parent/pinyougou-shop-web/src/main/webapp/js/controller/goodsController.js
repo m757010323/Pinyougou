@@ -1,5 +1,5 @@
  //控制层 
-app.controller('goodsController' ,function($scope,$controller   ,goodsService,uploadService,itemCatService,typeTemplateService){
+app.controller('goodsController' ,function($scope,$controller ,$location  ,goodsService,uploadService,itemCatService,typeTemplateService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 
@@ -64,7 +64,11 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService,up
 			function (response) {
 				$scope.typeTemplate=response;
 				$scope.typeTemplate.brandIds=JSON.parse($scope.typeTemplate.brandIds);
-                $scope.entity.goodsDesc.customAttributeItems=JSON.parse($scope.typeTemplate.customAttributeItems);
+
+				//扩展属性
+				if($location.search()['id']==null){//与修改的时候回显产生冲突,所以需要判断下
+				    $scope.entity.goodsDesc.customAttributeItems=JSON.parse($scope.typeTemplate.customAttributeItems);
+                }
 			}
 		);
 		typeTemplateService.findSpecList(newValue).success(
@@ -159,15 +163,49 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService,up
 	};
 	
 	//查询实体 
-	$scope.findOne=function(id){				
+	$scope.findOne=function(){
+	    //该部分重点在于使用location服务获取到了从html页面转发访问带来的参数
+	    var id = $location.search()['id'];
+	    if(id ==null){
+	        return;
+        }
 		goodsService.findOne(id).success(
 			function(response){
-				$scope.entity= response;					
+				$scope.entity= response;
+				//使用富文本编辑器的editor直接赋值给html完成描述的复写
+				editor.html($scope.entity.goodsDesc.introduction);//商品介绍
+                //商品图片
+                $scope.entity.goodsDesc.itemImages=JSON.parse($scope.entity.goodsDesc.itemImages);//从字符串转换成json
+			    //扩展属性
+                $scope.entity.goodsDesc.customAttributeItems=JSON.parse($scope.entity.goodsDesc.customAttributeItems);
+			    //
+                $scope.entity.goodsDesc.specificationItems=JSON.parse($scope.entity.goodsDesc.specificationItems);
+
+                for (var i = 0; i <$scope.entity.itemList.length ; i++) {
+                    $scope.entity.itemList[i].spec=JSON.parse($scope.entity.itemList[i].spec);
+                }
+			
 			}
-		);				
+		);
 	};
-	
-	//保存 
+
+    //根据规格名称和选项名称返回是否被勾选
+    $scope.checkAttributeValue=function(specName,optionName){
+        var items= $scope.entity.goodsDesc.specificationItems;
+        var object= $scope.searchObjectByKey(items,'attributeName',specName);
+        if(object==null){
+            return false;
+        }else{
+            if(object.attributeValue.indexOf(optionName)>=0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
+
+    //保存
 	$scope.save=function(){				
 		var serviceObject;//服务层对象  				
 		if($scope.entity.id!=null){//如果有ID

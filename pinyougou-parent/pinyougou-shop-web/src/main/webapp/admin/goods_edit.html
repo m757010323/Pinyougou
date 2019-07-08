@@ -37,7 +37,7 @@
     
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController" ng-init="selectItemCat1List()" >
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController" ng-init="selectItemCat1List();findOne()" >
 
             <!-- 正文区域 -->
             <section class="content">
@@ -203,14 +203,14 @@
 					                        <div class="col-md-10 data">
 					                               
 					                            <span ng-repeat="option in pojo.options">
-					                            	<input  type="checkbox" ng-click="updateSpecAttribute($event,pojo.text,option.optionName);createItemList()" >{{option.optionName}}
+					                            	<input  type="checkbox" ng-click="updateSpecAttribute($event,pojo.text,option.optionName);createItemList()"
+															ng-checked="checkAttributeValue(pojo.text,option.optionName)">{{option.optionName}}
 					                            </span>
 					                            	
 					                        </div>
 		                                </div>
 
 	                                </div>
-								{{entity.itemList}}
 	                                
 	                                <div class="row data-type">
 	                                	 <table class="table table-bordered table-striped table-hover dataTable">
@@ -245,9 +245,9 @@
 											  
 						                    </tbody>
 									 	</table>
-								
+
 	                                </div>
-	                                
+
 	                            </div>
                             </div>
                             
