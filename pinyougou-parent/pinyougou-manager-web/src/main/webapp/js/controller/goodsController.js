@@ -1,5 +1,5 @@
  //控制层 
-app.controller('goodsController' ,function($scope,$controller,$location ,itemCatService  ,goodsService){
+app.controller('goodsController' ,function($scope,$controller,$location ,itemCatService ,goodsService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -25,12 +25,25 @@ app.controller('goodsController' ,function($scope,$controller,$location ,itemCat
 	//查询实体 
 	$scope.findOne=function(){
 		var id= $location.search()['id'];
-		if(i==null){
+		if(id==null){
 			return;
 		}
 		goodsService.findOne(id).success(
 			function(response){
-				$scope.entity= response;					
+				$scope.entity= response;
+
+                //使用富文本编辑器的editor直接赋值给html完成描述的复写
+                editor.html($scope.entity.goodsDesc.introduction);//商品介绍
+                //商品图片
+                $scope.entity.goodsDesc.itemImages=JSON.parse($scope.entity.goodsDesc.itemImages);//从字符串转换成json
+                //扩展属性
+                $scope.entity.goodsDesc.customAttributeItems=JSON.parse($scope.entity.goodsDesc.customAttributeItems);
+                //
+                $scope.entity.goodsDesc.specificationItems=JSON.parse($scope.entity.goodsDesc.specificationItems);
+
+                for (var i = 0; i <$scope.entity.itemList.length ; i++) {
+                    $scope.entity.itemList[i].spec=JSON.parse($scope.entity.itemList[i].spec);
+                }
 			}
 		);				
 	};
@@ -114,6 +127,50 @@ app.controller('goodsController' ,function($scope,$controller,$location ,itemCat
             }
 		);
 
-    }
+    };
+
+    $scope.$watch('entity.goods.category1Id',function (newValue,oldValue) {
+        $scope.itemCat3List=[];
+        itemCatService.findByParentId(newValue).success(
+            function (response) {
+                $scope.itemCat2List=response;
+            }
+        );
+    });
+
+    $scope.$watch('entity.goods.category2Id',function (newValue,oldValue) {
+        itemCatService.findByParentId(newValue).success(
+            function (response) {
+                $scope.itemCat3List=response;
+            }
+        );
+    });
+    //读取模板id
+    $scope.$watch('entity.goods.category3Id',function (newValue,oldValue) {
+        itemCatService.findOne(newValue).success(
+            function (response) {
+                $scope.entity.goods.typeTemplateId=response.typeId;
+            }
+        );
+    });
+
+    $scope.$watch('entity.goods.typeTemplateId',function (newValue,oldValue) {
+        typeTemplateService.findOne(newValue).success(
+            function (response) {
+                $scope.typeTemplate=response;
+                $scope.typeTemplate.brandIds=JSON.parse($scope.typeTemplate.brandIds);
+
+                //扩展属性
+                if($location.search()['id']==null){//与修改的时候回显产生冲突,所以需要判断下
+                    $scope.entity.goodsDesc.customAttributeItems=JSON.parse($scope.typeTemplate.customAttributeItems);
+                }
+            }
+        );
+        typeTemplateService.findSpecList(newValue).success(
+            function (response) {
+                $scope.specList=response;
+            }
+        );
+    });
     
 });	

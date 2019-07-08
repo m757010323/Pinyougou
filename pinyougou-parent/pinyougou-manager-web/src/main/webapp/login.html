@@ -11,9 +11,11 @@
 
     <link rel="stylesheet" type="text/css" href="css/webbase.css" />
     <link rel="stylesheet" type="text/css" href="css/pages-login-manage.css" />
+
 </head>
 
-<body>
+
+<body >
 	<div class="loginmanage">
 		<div class="py-container">
 			<h4 class="manage-title">品优购运营商运营管理后台</h4>
@@ -42,7 +44,7 @@
 								<input id="prependedInput" name="username" type="text" placeholder="邮箱/用户名/手机号" class="span2 input-xfat">
 							</div>
 							<div class="input-prepend"><span class="add-on loginpwd"></span>
-								<input id="prependedInput1" name="password" type="password" placeholder="请输入密码" class="span2 input-xfat">
+								<input id="prependedInput1" name="password" type="password" placeholder="请输入密码" ng-keyup="myKeyup($event)" class="span2 input-xfat">
 							</div>
 							<div class="setting">
 								 <div id="slider">
