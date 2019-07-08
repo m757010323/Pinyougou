@@ -218,9 +218,10 @@ app.controller('goodsController' ,function($scope,$controller ,$location  ,goods
 		serviceObject.success(
 			function(response){
 				if(response.success){
-                    $scope.entity={};
-                    editor.html("");//清空富文本编辑器
+                    // $scope.entity={};
+                    // editor.html("");//清空富文本编辑器
                     alert("保存成功");
+                    location.href="goods.html";
 				}else{
 					alert(response.message);
 				}
