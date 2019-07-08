@@ -1,5 +1,5 @@
  //控制层 
-app.controller('goodsController' ,function($scope,$controller   ,goodsService){	
+app.controller('goodsController' ,function($scope,$controller,$location ,itemCatService  ,goodsService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -23,7 +23,11 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 	};
 	
 	//查询实体 
-	$scope.findOne=function(id){				
+	$scope.findOne=function(){
+		var id= $location.search()['id'];
+		if(i==null){
+			return;
+		}
 		goodsService.findOne(id).success(
 			function(response){
 				$scope.entity= response;					
@@ -76,5 +80,40 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 			}			
 		);
 	};
+
+    $scope.status=["未审核","审核已通过","已驳回","已关闭"];
+    $scope.itemCatList=[];
+    $scope.findItemCatList=function(){
+        itemCatService.findAll().success(
+            function (response) {
+                for (var i = 0; i <response.length ; i++) {
+                    $scope.itemCatList[response[i].id]=response[i].name;
+                }
+            }
+        )
+    };
+
+    $scope.selectItemCat1List=function(){
+        itemCatService.findByParentId(0).success(
+            function (response) {
+                $scope.itemCat1List=response;
+            }
+        );
+    };
+
+    //更改状态
+	$scope.updateStatus=function (status) {
+		goodsService.updateStatus($scope.selectIds,status).success(
+			function (response) {
+				if(response.success){
+                    $scope.reloadList();//刷新列表
+                    $scope.selectIds=[];//清空ID集合
+				}else{
+					alert(response.message);
+				}
+            }
+		);
+
+    }
     
 });	
