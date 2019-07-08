@@ -71,14 +71,21 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/update")
-	public Result update(@RequestBody TbGoods goods){
-		try {
-			goodsService.update(goods);
-			return new Result(true, "修改成功");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Result(false, "修改失败");
-		}
+	public Result update(@RequestBody Goods goods){
+		//首先判断是不是当前登陆账户的商品
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        Goods goods2 = goodsService.findOne(goods.getGoods().getId());
+        if(goods2.getGoods().getSellerId().equals(name) && goods.getGoods().getSellerId().equals(name)){
+            try {
+                goodsService.update(goods);
+                return new Result(true, "修改成功");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new Result(false, "修改失败");
+            }
+        }
+        return new Result(false, "修改失败");
+
 	}	
 	
 	/**
