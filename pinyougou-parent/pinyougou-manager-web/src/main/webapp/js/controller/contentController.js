@@ -1,5 +1,5 @@
  //控制层 
-app.controller('contentController' ,function($scope,$controller   ,contentService){	
+app.controller('contentController' ,function($scope,$controller   ,contentService,uploadService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -10,7 +10,7 @@ app.controller('contentController' ,function($scope,$controller   ,contentServic
 				$scope.list=response;
 			}			
 		);
-	}    
+	};
 	
 	//分页
 	$scope.findPage=function(page,rows){			
@@ -20,7 +20,7 @@ app.controller('contentController' ,function($scope,$controller   ,contentServic
 				$scope.paginationConf.totalItems=response.total;//更新总记录数
 			}			
 		);
-	}
+	};
 	
 	//查询实体 
 	$scope.findOne=function(id){				
@@ -29,7 +29,7 @@ app.controller('contentController' ,function($scope,$controller   ,contentServic
 				$scope.entity= response;					
 			}
 		);				
-	}
+	};
 	
 	//保存 
 	$scope.save=function(){				
@@ -49,7 +49,7 @@ app.controller('contentController' ,function($scope,$controller   ,contentServic
 				}
 			}		
 		);				
-	}
+	};
 	
 	 
 	//批量删除 
@@ -63,7 +63,7 @@ app.controller('contentController' ,function($scope,$controller   ,contentServic
 				}						
 			}		
 		);				
-	}
+	};
 	
 	$scope.searchEntity={};//定义搜索对象 
 	
@@ -75,6 +75,23 @@ app.controller('contentController' ,function($scope,$controller   ,contentServic
 				$scope.paginationConf.totalItems=response.total;//更新总记录数
 			}			
 		);
-	}
-    
+	};
+
+    /**
+     * 上传图片
+     */
+    $scope.uploadFile = function(){
+        uploadService.uploadFile().success(
+            function (response) {
+                if(response.success){//如果上传成功,取出url
+                    $scope.entity.pic=response.message;//设置文件地址
+                }else{
+                    alert(response.message);
+                }
+            }).error(function () {
+            alert("上传错误")
+
+        });
+    };
+
 });	
