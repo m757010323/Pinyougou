@@ -1,5 +1,5 @@
  //控制层 
-app.controller('contentController' ,function($scope,$controller   ,contentService,uploadService){
+app.controller('contentController' ,function($scope,$controller   ,contentService,uploadService,contentCategoryService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -93,5 +93,18 @@ app.controller('contentController' ,function($scope,$controller   ,contentServic
 
         });
     };
+
+    //加载广告分类列表
+    $scope.findContentCategoryList=function(){
+        contentCategoryService.findAll().success(
+            function(response){
+                $scope.contentCategoryList=response;
+            }
+        );
+    };
+
+    $scope.status=["无效","有效"];
+
+
 
 });	

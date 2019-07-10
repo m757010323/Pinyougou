@@ -22,11 +22,12 @@
     <script type="text/javascript" src="../js/base_pagination.js"></script>
     <script type="text/javascript" src="../js/service/contentService.js"></script>
     <script type="text/javascript" src="../js/service/uploadService.js"></script>
+    <script type="text/javascript" src="../js/service/contentCategoryService.js"></script>
     <script type="text/javascript" src="../js/controller/baseController.js"></script>
     <script type="text/javascript" src="../js/controller/contentController.js"></script>
 
 </head>
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="contentController">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="contentController" ng-init="findContentCategoryList()">
 <!-- .box-body -->
 <div class="box-header with-border">
     <h3 class="box-title">管理</h3>
@@ -79,13 +80,13 @@
             </thead>
             <tbody>
             <tr ng-repeat="entity in list">
-                <td><input type="checkbox" ng-click="updateSelection($event,entity.id)"></td>
+                <td><input type="checkbox" ng-click="updateSelectction($event,entity.id)"></td>
                 <td>{{entity.id}}</td>
                 <td>{{entity.categoryId}}</td>
                 <td>{{entity.title}}</td>
                 <td>{{entity.url}}</td>
                 <td> <img alt="" src="{{entity.pic}}" height="50px" width="100px"></td>
-                <td>{{entity.status}}</td>
+                <td>{{status[entity.status]}}</td>
                 <td>{{entity.sortOrder}}</td>
 
                 <td class="text-center">
@@ -118,7 +119,9 @@
 
                         <td>内容类目ID</td>
 
-                        <td><input class="form-control" ng-model="entity.categoryId" placeholder="内容类目ID"></td>
+                        <td>
+                            <select  class="form-control" ng-model="entity.categoryId" ng-options="item.id as item.name  for item in contentCategoryList"></select>
+                        </td>
 
                     </tr>
                     <tr>
@@ -150,7 +153,7 @@
 
                         <td>状态</td>
 
-                        <td><input class="form-control" ng-model="entity.status" placeholder="状态"></td>
+                        <td><input  type="checkbox" ng-model="entity.status" ng-true-value="1" ng-false-value="0">有效</td>
 
                     </tr>
                     <tr>
