@@ -125,7 +125,6 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 		List<TbTypeTemplate> templateList = findAll();
 		for (TbTypeTemplate tbTypeTemplate : templateList) {
 			List<Map> brandList = JSON.parseArray(tbTypeTemplate.getBrandIds(),Map.class);
-			System.out.println(tbTypeTemplate.getId());
 			redisTemplate.boundHashOps("brandList").put(tbTypeTemplate.getId(),brandList);
 			List<Map> specList = findSpecList(tbTypeTemplate.getId());
 			redisTemplate.boundHashOps("specList").put(tbTypeTemplate.getId(),specList);

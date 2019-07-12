@@ -45,13 +45,11 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         Map map = new HashMap();
         Long templateId = (Long) redisTemplate.boundHashOps("itemCat").get(category);
         if(templateId!=null){
-            System.out.println(templateId);
             List brandList = (List) redisTemplate.boundHashOps("brandList").get(templateId);
             List specList = (List) redisTemplate.boundHashOps("specList").get(templateId);
             map.put("brandList",brandList);
             map.put("specList",specList);
-//            System.out.println("品牌列表条数:"+brandList.size());
-//            System.out.println("规格列表条数:"+specList.size());
+
         }
 
         return map;
