@@ -40,7 +40,7 @@ public class ItemCatServiceImpl implements ItemCatService {
 
 		List<TbItemCat> itemCats = findAll();
 		for (TbItemCat itemCat : itemCats) {
-			redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getId());
+			redisTemplate.boundHashOps("itemCat").put(itemCat.getName(),itemCat.getTypeId());
 		}
 		System.out.println("根据名称缓存id");
 		return itemCatMapper.selectByExample(example);

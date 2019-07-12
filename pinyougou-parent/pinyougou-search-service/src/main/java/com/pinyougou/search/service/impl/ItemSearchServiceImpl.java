@@ -5,6 +5,7 @@ import com.pinyougou.pojo.TbItem;
 import com.pinyougou.search.service.ItemSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.*;
 import org.springframework.data.solr.core.query.result.*;
@@ -19,6 +20,9 @@ public class ItemSearchServiceImpl implements ItemSearchService {
     @Autowired
     private SolrTemplate solrTemplate;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
     public Map<String, Object> search(Map searchMap) {
 
@@ -27,14 +31,33 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         map.putAll(searchList(searchMap));
 
         //保存根据关键字查询数据
-        List categoryList = searchCategoryList(searchMap);
+        List<String> categoryList = searchCategoryList(searchMap);
 
         map.put("categoryList",categoryList);
+        if(categoryList.size()>0){
+            System.out.println("11111111111111111111111111");
+            map.putAll(searchBrandAndSpecList(categoryList.get(0)));
+        }
+        return map;
+    }
+
+    private Map searchBrandAndSpecList(String category){
+        Map map = new HashMap();
+        Long templateId = (Long) redisTemplate.boundHashOps("itemCat").get(category);
+        if(templateId!=null){
+            System.out.println(templateId);
+            List brandList = (List) redisTemplate.boundHashOps("brandList").get(templateId);
+            List specList = (List) redisTemplate.boundHashOps("specList").get(templateId);
+            map.put("brandList",brandList);
+            map.put("specList",specList);
+//            System.out.println("品牌列表条数:"+brandList.size());
+//            System.out.println("规格列表条数:"+specList.size());
+        }
 
         return map;
     }
 
-    private List searchCategoryList(Map searchMap) {
+    private List<String> searchCategoryList(Map searchMap) {
         List<String> list = new ArrayList();
         Query query = new SimpleQuery("*:*");
         //按照关键字查询
