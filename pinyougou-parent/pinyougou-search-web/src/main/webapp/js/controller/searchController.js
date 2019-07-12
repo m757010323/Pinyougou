@@ -5,7 +5,7 @@ app.controller("searchController", function ($scope, searchService) {
                 $scope.resultMap = response;
             }
         );
-    }
+    };
 
 
     $scope.searchMap = {'keywords': '', 'category': '', 'brand': '', 'spec': {}};//搜索对象
