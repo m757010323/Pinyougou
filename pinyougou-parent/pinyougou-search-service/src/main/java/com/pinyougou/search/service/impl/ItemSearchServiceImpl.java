@@ -4,12 +4,12 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.pinyougou.pojo.TbItem;
 import com.pinyougou.search.service.ItemSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.*;
-import org.springframework.data.solr.core.query.result.HighlightEntry;
-import org.springframework.data.solr.core.query.result.HighlightPage;
-import org.springframework.data.solr.core.query.result.ScoredPage;
+import org.springframework.data.solr.core.query.result.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,17 +22,41 @@ public class ItemSearchServiceImpl implements ItemSearchService {
     @Override
     public Map<String, Object> search(Map searchMap) {
 
-//        Query query = new SimpleQuery("*:*");
-//        Criteria criteria = new Criteria("item_keywords").is(searchMap.get("keywords"));
-//        query.addCriteria(criteria);
-//        ScoredPage<TbItem> page = solrTemplate.queryForPage(query, TbItem.class);
-//        map.put("rows",page.getContent());
         Map map = new HashMap();
+        //保存高亮显示数据
         map.putAll(searchList(searchMap));
+
+        //保存根据关键字查询数据
+        List categoryList = searchCategoryList(searchMap);
+
+        map.put("categoryList",categoryList);
+
         return map;
     }
 
-    private Map searchList(Map searchMap){
+    private List searchCategoryList(Map searchMap) {
+        List<String> list = new ArrayList();
+        Query query = new SimpleQuery("*:*");
+        //按照关键字查询
+        Criteria criteria = new Criteria("item_keywords").is(searchMap.get("keywords"));//where....
+        query.addCriteria(criteria);
+        //按照关键字分组
+        GroupOptions groupoptions = new GroupOptions().addGroupByField("item_category");//group...by
+        query.setGroupOptions(groupoptions);
+        //得到分组页
+        GroupPage<TbItem> page = solrTemplate.queryForGroupPage(query, TbItem.class);
+        //根据分组列得到分组结果集
+        GroupResult<TbItem> result = page.getGroupResult("item_category");
+        //得到分组结果入口页
+        Page<GroupEntry<TbItem>> entries = result.getGroupEntries();
+        //得到分组结果入口集合
+        for (GroupEntry<TbItem> entry : entries) {
+            list.add(entry.getGroupValue());//将分组结果封装到数据集中
+        }
+        return list;
+    }
+
+    private Map searchList(Map searchMap) {
         Map map = new HashMap();
         HighlightQuery query = new SimpleHighlightQuery();
         HighlightOptions highlightoptions = new HighlightOptions().addField("item_title");//设置高亮的域
@@ -48,14 +72,14 @@ public class ItemSearchServiceImpl implements ItemSearchService {
             //获取高亮列表,根据上文设置的高亮域有多少
             List<HighlightEntry.Highlight> highlights = entry.getHighlights();
             //并且每个域可能存储多值
-            if(highlights.size()>0 && highlights.get(0).getSnipplets().size() >0){
+            if (highlights.size() > 0 && highlights.get(0).getSnipplets().size() > 0) {
 
                 TbItem item = entry.getEntity();
                 //设置高亮的值
                 item.setTitle(highlights.get(0).getSnipplets().get(0));
             }
         }
-        map.put("rows",page.getContent());
+        map.put("rows", page.getContent());
         return map;
     }
 }
