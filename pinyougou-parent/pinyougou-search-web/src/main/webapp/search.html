@@ -83,7 +83,7 @@
 										<!--searchAutoComplete-->
 										<div class="input-append">
 											<input type="text" id="autocomplete" type="text" ng-model="searchMap.keywords" class="input-error input-xxlarge" />
-											<button class="sui-btn btn-xlarge btn-danger" ng-click="search()" type="button">搜索</button>
+											<button class="sui-btn btn-xlarge btn-danger" ng-click="searchMap.pageNo=1;search()" type="button">搜索</button>
 								</div>
 									</form>
 								</div>
@@ -159,6 +159,7 @@
 					<li class="tag" ng-if="searchMap.brand!=''" ng-click="removeSearchItem('brand')">品牌:{{searchMap.brand}}<i class="sui-icon icon-tb-close"></i></li>
 					<li class="tag" ng-repeat="(key,value) in searchMap.spec" ng-click="removeSearchItem(key)">{{key}}:{{value}}<i class="sui-icon icon-tb-close"></i></li>
                     <li class="tag" ng-if="searchMap.price!=''" ng-click="removeSearchItem('price')">价格：{{searchMap.price}}<i  class="sui-icon icon-tb-close"></i></li>
+                    搜索结果:{{resultMap.total}}条
                 </ul>
 				<div class="clearfix"></div>
 			</div>
@@ -281,7 +282,7 @@
 						<li class="yui3-u-1-5" ng-repeat="item in resultMap.rows" >
 							<div class="list-wrap">
 								<div class="p-img">
-									<a href="item.html" target="_blank"><img src="{{item.image}}" /></a>
+									<a href="item.html" target="_blank"><img ng-src="{{item.image}}" /></a>
 								</div>
 								<div class="price">
 									<strong>
@@ -311,33 +312,24 @@
 				<div class="fr page">
 					<div class="sui-pagination pagination-large">
 						<ul>
-							<li class="prev disabled">
-								<a href="#">«上一页</a>
+							<li class="prev {{isTopPage()?'disabled':''}}">
+								<a href="#" ng-click="queryByPage(searchMap.pageNo-1)">«上一页</a>
 							</li>
-							<li class="active">
-								<a href="#">1</a>
+                            <li class="dotted" ng-if="firstDot==true"><span>...</span></li>
+
+							<li class="active" ng-repeat="p in pageLabel">
+								<a href="#" ng-click="queryByPage(p)">{{p}}</a>
 							</li>
-							<li>
-								<a href="#">2</a>
-							</li>
-							<li>
-								<a href="#">3</a>
-							</li>
-							<li>
-								<a href="#">4</a>
-							</li>
-							<li>
-								<a href="#">5</a>
-							</li>
-							<li class="dotted"><span>...</span></li>
-							<li class="next">
-								<a href="#">下一页»</a>
+
+                            <li class="dotted" ng-if="lastDot==true"><span>...</span></li>
+							<li class="next {{isEndPage()?'disabled':''}}">
+								<a href="#" ng-click="queryByPage(searchMap.pageNo+1)">下一页»</a>
 							</li>
 						</ul>
-						<div><span>共10页&nbsp;</span><span>
+						<div><span>共{{resultMap.totalPages}}页&nbsp;</span><span>
       到第
-      <input type="text" class="page-num">
-      页 <button class="page-confirm" onclick="alert(1)">确定</button></span></div>
+      <input type="text" class="page-num" ng-model="searchMap.pageNo">
+      页 <button class="page-confirm" ng-click="queryByPage(searchMap.pageNo)" >确定</button></span></div>
 					</div>
 				</div>
 			</div>
