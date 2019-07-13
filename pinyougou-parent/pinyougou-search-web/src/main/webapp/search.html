@@ -160,6 +160,7 @@
 					<li class="tag" ng-repeat="(key,value) in searchMap.spec" ng-click="removeSearchItem(key)">{{key}}:{{value}}<i class="sui-icon icon-tb-close"></i></li>
                     <li class="tag" ng-if="searchMap.price!=''" ng-click="removeSearchItem('price')">价格：{{searchMap.price}}<i  class="sui-icon icon-tb-close"></i></li>
                     搜索结果:{{resultMap.total}}条
+                    {{searchMap}} {{resultMap.categoryList[0]}}
                 </ul>
 				<div class="clearfix"></div>
 			</div>

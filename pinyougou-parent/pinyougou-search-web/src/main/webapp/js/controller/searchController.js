@@ -116,6 +116,7 @@ app.controller("searchController", function ($scope,$location ,searchService) {
         }else{//否则是规格
             delete $scope.searchMap.spec[key];//移除此属性
         }
+        $scope.searchMap.keywords=$scope.resultMap.categoryList[0];
         $scope.search();//执行搜索
     }
 
