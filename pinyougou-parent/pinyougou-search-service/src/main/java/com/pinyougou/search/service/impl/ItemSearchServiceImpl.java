@@ -5,6 +5,7 @@ import com.pinyougou.pojo.TbItem;
 import com.pinyougou.search.service.ItemSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.solr.core.SolrTemplate;
 import org.springframework.data.solr.core.query.*;
@@ -25,6 +26,11 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
     @Override
     public Map<String, Object> search(Map searchMap) {
+
+        //关键字空格处理
+        String keywords = (String) searchMap.get("keywords");
+        searchMap.put("keywords", keywords.replace(" ", ""));
+
 
         Map map = new HashMap();
         //1.保存高亮显示数据
@@ -150,6 +156,21 @@ public class ItemSearchServiceImpl implements ItemSearchService {
         }
         query.setOffset((pageNo-1)*pageSize);
         query.setRows(pageSize);
+
+        //1.7 排序筛选
+
+        String sortValue = (String) searchMap.get("sort");
+        String sortField = (String) searchMap.get("sortField");
+        if(sortValue!=null&& !"".equals(sortValue)){
+            if(sortValue.equals("ASC")){
+                Sort sort = new Sort(Sort.Direction.ASC,"item_"+sortField);
+                query.addSort(sort);
+            }
+            if(sortValue.equals("DESC")){
+                Sort sort = new Sort(Sort.Direction.DESC,"item_"+sortField);
+                query.addSort(sort);
+            }
+        }
 
         //*********************** 获得结果集********************************************
         HighlightPage<TbItem> page = solrTemplate.queryForHighlightPage(query, TbItem.class);
